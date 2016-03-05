@@ -1,0 +1,23 @@
+{
+  "name": "waverider",
+  "version": "1.0.0",
+  "description": "Do cool stuff with sound waves.",
+  "main": "leap.js",
+  "scripts": {
+    "start": "node --harmony-destructuring leap.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AriaFallah/waverider.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AriaFallah/waverider/issues"
+  },
+  "homepage": "https://github.com/AriaFallah/waverider#readme",
+  "dependencies": {
+    "leapjs": "^0.6.4"
+  }
+}

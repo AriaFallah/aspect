@@ -1,10 +1,10 @@
 {
-  "name": "waverider",
+  "name": "memeride",
   "version": "1.0.0",
-  "description": "Do cool stuff with sound waves.",
-  "main": "leap.js",
+  "description": "Browse the dankest memes using the power of facial recognition and machine learning.",
+  "main": "index.js",
   "scripts": {
-    "start": "node --harmony-destructuring leap.js"
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +18,5 @@
   },
   "homepage": "https://github.com/AriaFallah/waverider#readme",
   "dependencies": {
-    "leapjs": "^0.6.4"
   }
 }

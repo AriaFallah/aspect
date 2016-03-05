@@ -1,3 +1,3 @@
-# waverider :ocean:
+# Meme Ride :ocean:
 
-Do cool stuff with sound waves.
+Browse the dankest memes using the power of facial recognition and machine learning.

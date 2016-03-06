@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createFetch, base, accept, parseJSON } from 'http-client'
+import * as axios from 'axios'
 
 const SERVER  = 'https://api.kairos.com/'
 const APP_ID  = 'c7a9d520'

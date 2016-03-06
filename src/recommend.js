@@ -28,8 +28,6 @@ const numMemes = {
   trump : 1
 }
 
-const maxNumTags = 10
-
 // initial topics all have same probability
 Object.keys(expectedEnjoyment).forEach((el) => {
   expectedEnjoyment[el] = 5.0

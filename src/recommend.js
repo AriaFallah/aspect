@@ -33,17 +33,18 @@ for (let el in expected_enjoyment) {
   expected_enjoyment[el] = 1.0 / num_topics
 }
 
+// should always be nonnegative
 function calcE(emotions) {
   return ( 
     emotions.surprise  + emotions.happiness -
-    emotions.anger - emotions.disgust -
-    emotions.fear - emotions.sadness
+    (emotions.anger + emotions.disgust +
+     emotions.fear + emotions.sadness) + 4
   )
 }
 
 function recommend_next_topic(topics, emotions) {
   // topics: top 5 topics from latest video (array)
-  // emotions: emotional ratings for user reaction (object)
+  // emotions: normalized emotional ratings for user reaction (object)
   let enjoyment = calcE(emotions)
 
   topics.forEach(function(topic) {

@@ -10,74 +10,82 @@
 
 // expected_enjoyment['topic'] yields expected enjoyment of 'topic'
 let expected_enjoyment = {
-  'cat'     : 0,
-  'doge'    : 0,
-  'house'   : 0,
-  'party'   : 0,
-  'milk'    : 0,
-  'burgers' : 0
+  cat     : 0,
+  doge    : 0,
+  house   : 0,
+  party   : 0,
+  milk    : 0,
+  burgers : 0
 }
 // num_memes['topic'] says how many memes have been served with label 'topic'
 let num_memes = {
-  'cat'     : 0,
-  'doge'    : 0,
-  'house'   : 0,
-  'party'   : 0,
-  'milk'    : 0,
-  'burgers' : 0
+  cat     : 0,
+  doge    : 0,
+  house   : 0,
+  party   : 0,
+  milk    : 0,
+  burgers : 0
+}
+let num_topics = Object.keys(num_memes).length
+
+for (let el in expected_enjoyment) {
+  expected_enjoyment[el] = 1.0 / num_topics
 }
 
-for (el in expected_enjoyment) {
-  expected_enjoyment[el] = 1.0 / expected_enjoyment
+function calcE(emotions) {
+  return ( 
+    emotions.surprise * 
+    (emotions.smile - emotions.negative) +
+    (emotions.attention - 0.5)
+  )
 }
 
-function recommend_next_topic(cur_meme, cur_vid) {
-  // vid is raw video data from webcam
-  topics = get_clarifai_analysis(cur_meme) // top 5 topics
-  emotions = get_kairos_analysis(cur_vid)  // normalized emotions
-  enjoyment = this.enjoyment(emotions)
+function recommend_next_topic(topics, emotions) {
+  // topics: top 5 topics from latest video
+  // emotions: normalized emotional ratings for user reaction
+  let enjoyment = calcE(emotions)
 
-  for (topic in topics) {
-    if (!expected_enjoyment.hasOwnProperty(topic)) {
+  topics.forEach(function(topic) {
+    if(!expected_enjoyment[topic]) {
       expected_enjoyment[topic] = 0
       num_memes[topic] = 0
     }
+    
     expected_enjoyment[topic] =
-      (num_memes[topic] * expected_enjoyment[topic] + enjoyment) / (num_memes + 1.0)
+      (num_memes[topic] * expected_enjoyment[topic] + enjoyment) / 
+      (num_memes[topic] + 1.0)
+      
     num_memes[topic]++
-  }
+  })
 
-  sum_enjoyment = 0.0
-  for (topic in expected_enjoyment) {
+  let sum_enjoyment = 0
+  Object.keys(expected_enjoyment).forEach(function(topic) {
+    console.log(sum_enjoyment)
     sum_enjoyment += expected_enjoyment[topic]
-  }
-
-  topic_probs = []
-  rolling_expected = 0
-  for (topic in expected_enjoyment) {
-    rolling_expected += expected_enjoyment / sum_enjoyment
-    topic_probs.push([topic, rolling_expected])
-  }
+  })
   
-  recs = []
-  num_recs = 3
-  for (i = 0; i < num_recs; i++) {
-    igloo = Math.random()
-    if (igloo <= topic_probs[j][1]) {
-      recs.push(topic_probs[j][0])
+  let topic_probs = []
+  let rolling_expected = 0
+  
+  Object.keys(expected_enjoyment).forEach(function(topic) {
+    rolling_expected += expected_enjoyment[topic] / sum_enjoyment
+    topic_probs.push([topic, rolling_expected])
+  })
+
+  let recs = []
+  let num_recs = 3
+  for (let i = 0; i < num_recs; i++) {
+    let igloo = Math.random()
+    if (igloo <= topic_probs[0][1]) {
+      recs.push(topic_probs[0][0])
     } else {
-      for (j = 0; j < topic_probs.length - 1; j++) {
-	if (igloo > topic_probs[j][1] && igloo <= topic_probs[j+1][1]) {
-	  recs.push(topic_probs[j][0])
-	}
+      for (let j = 0; j < topic_probs.length - 1; j++) {
+	    if (igloo > topic_probs[j][1] && igloo <= topic_probs[j+1][1]) {
+          recs.push(topic_probs[j][0])
+    	}
       }
     }
   }
 
   return recs
-}
-
-function enjoyment(emotions) {
-  return emotions.surprise * (emotions.smile - emotions.negative) +
-    (emotions.attention - 0.5)
 }

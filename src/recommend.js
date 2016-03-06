@@ -42,7 +42,39 @@ function calcE(emotions) {
   )
 }
 
-function recommend_next_topic(topics, emotions) {
+function recommend_topics(num_recs) {
+  let sum_enjoyment = 0
+  Object.keys(expected_enjoyment).forEach(function(topic) {
+    console.log(sum_enjoyment)
+    sum_enjoyment += expected_enjoyment[topic]
+  })
+  
+  let topic_probs = []
+  let rolling_expected = 0
+  
+  Object.keys(expected_enjoyment).forEach(function(topic) {
+    rolling_expected += expected_enjoyment[topic] / sum_enjoyment
+    topic_probs.push([topic, rolling_expected])
+  })
+
+  let recs = []
+  for (let i = 0; i < num_recs; i++) {
+    let igloo = Math.random()
+    if (igloo <= topic_probs[0][1]) {
+      recs.push(topic_probs[0][0])
+    } else {
+      for (let j = 0; j < topic_probs.length - 1; j++) {
+	    if (igloo > topic_probs[j][1] && igloo <= topic_probs[j+1][1]) {
+          recs.push(topic_probs[j][0])
+    	}
+      }
+    }
+  }
+  
+  return recs
+}
+
+function update_user_prefs(topics, emotions) {
   // topics: top 5 topics from latest video (array)
   // emotions: normalized emotional ratings for user reaction (object)
   let enjoyment = calcE(emotions)
@@ -59,35 +91,4 @@ function recommend_next_topic(topics, emotions) {
       
     num_memes[topic]++
   })
-
-  let sum_enjoyment = 0
-  Object.keys(expected_enjoyment).forEach(function(topic) {
-    console.log(sum_enjoyment)
-    sum_enjoyment += expected_enjoyment[topic]
-  })
-  
-  let topic_probs = []
-  let rolling_expected = 0
-  
-  Object.keys(expected_enjoyment).forEach(function(topic) {
-    rolling_expected += expected_enjoyment[topic] / sum_enjoyment
-    topic_probs.push([topic, rolling_expected])
-  })
-
-  let recs = []
-  let num_recs = 3
-  for (let i = 0; i < num_recs; i++) {
-    let igloo = Math.random()
-    if (igloo <= topic_probs[0][1]) {
-      recs.push(topic_probs[0][0])
-    } else {
-      for (let j = 0; j < topic_probs.length - 1; j++) {
-	    if (igloo > topic_probs[j][1] && igloo <= topic_probs[j+1][1]) {
-          recs.push(topic_probs[j][0])
-    	}
-      }
-    }
-  }
-
-  return recs
 }

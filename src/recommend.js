@@ -20,23 +20,25 @@ const expectedEnjoyment = {
 
 // numMemes['topic'] says how many memes have been served with label 'topic'
 const numMemes = {
-  cat   : 0,
-  doge  : 0,
-  meme  : 0,
-  party : 0,
-  milk  : 0,
-  trump : 0
+  cat   : 1,
+  doge  : 1,
+  meme  : 1,
+  party : 1,
+  milk  : 1,
+  trump : 1
 }
+
+const maxNumTags = 10
 
 // initial topics all have same probability
 Object.keys(expectedEnjoyment).forEach((el) => {
-  expectedEnjoyment[el] = 5
+  expectedEnjoyment[el] = 5.0
 })
 
 // should always be nonnegative
 function calcE(emotions) {
-  return emotions.surprise + emotions.happiness -
-    (emotions.anger + emotions.neutral + emotions.disgust + emotions.fear + emotions.sadness) + 5
+  return 2 * (emotions.surprise + emotions.happiness) -
+    (3 * emotions.neutral + emotions.disgust + emotions.sadness) + 5
 }
 
 export function recommendTopics(numRecs) {
@@ -79,12 +81,17 @@ export function updateUserPrefs(topics, emotions) {
       expectedEnjoyment[topic] = 0
       numMemes[topic] = 0
     }
-
+    console.log(topics.indexOf(topic))
     expectedEnjoyment[topic] =
-    (numMemes[topic] * expectedEnjoyment[topic] + enjoyment) /
-    (numMemes[topic] + 1.0)
+      (numMemes[topic] * expectedEnjoyment[topic] + enjoyment) /
+      (numMemes[topic] + 1.0)
 
     numMemes[topic]++
+
+    if (expectedEnjoyment[topic] < 2.5) {
+      delete expectedEnjoyment[topic]
+      delete numMemes[topic]
+    }
   })
 
   return expectedEnjoyment

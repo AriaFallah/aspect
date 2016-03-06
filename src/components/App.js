@@ -18,6 +18,7 @@ export default class App extends Component {
       img: 'http://i.imgur.com/SEQ8MWB.png'
     }
     this.getImage = this.getImage.bind(this)
+    this.lock = new Auth0Lock('0cUJF1X5QmrXTsVKdL9CqorbW4SnjbZd', 'aria.auth0.com')
   }
 
   componentDidMount() {
@@ -73,18 +74,22 @@ export default class App extends Component {
   render() {
     return (
       <main className="ui container">
+        <div className="ui divider"></div>
         <text className="ui horizontal divider">React</text>
         <tracking className={style.hidden}>
           <video  id="v" autoPlay="true" />
           <canvas id="c" />
         </tracking>
-        <display className={classNames(style.flex, style.fadeIn)}>
+        <stuff className={classNames(style.flex, style.fadeIn)}>
           <button onClick={this.getImage} className="ui button basic">NEXT</button>
           <div className="ui divider"></div>
           <div>
             <Image img={this.state.img} />
           </div>
-        </display>
+        </stuff>
+        <div className="ui divider"></div>
+        <p>Have the image-browsing experience of a lifetime through the power of facial recognition and machine learning. React watches you while you view images, and learns via sentiment analysis which types of images you like to see and feeds you more like these.</p>
+        <button onClick={() => this.lock.show()} className="ui basic blue button">Login</button>
       </main>
     )
   }

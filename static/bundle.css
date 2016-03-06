@@ -1,0 +1,116 @@
+.src_index_js-styles-app {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+.src_containers_App_js-styles-app {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
+.src_containers_HomePage_js-styles-page {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+}
+.src_containers_HomePage_js-styles-hexagon {
+  width: 200px;
+}
+.src_containers_HomePage_js-styles-heading {
+  font-size: 24px;
+  font-family: Open Sans;
+  font-weight: 300;
+}
+.src_containers_HomePage_js-styles-input {
+  width: 30%;
+  margin-top: 100px;
+  text-align: center;
+}
+.src_containers_HomePage_js-styles-auth {
+  width: 150px;
+  margin: auto;
+}
+.src_containers_HomePage_js-styles-credit {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  margin-top: 100px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.src_containers_FormulaPage_js-styles-page {
+  width: 100%;
+  padding-top: 20px;
+}
+.src_containers_FormulaPage_js-styles-tex {
+  font-size: 24px;
+}
+.src_containers_FormulaPage_js-styles-formula {
+  text-align: center;
+}
+.src_containers_FormulaPage_js-styles-info {
+  font-style: italic;
+  font-size: 12px;
+  margin-top: 15px;
+}
+.src_containers_ExplorePage_js-styles-default {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 75px;
+  overflow-y: scroll;
+}
+.src_containers_ExplorePage_js-styles-tabLists {
+  margin-bottom: 20px;
+}
+.src_containers_ExplorePage_js-styles-pointer {
+  cursor: pointer;
+}
+.src_containers_ExplorePage_js-styles-formulagrid {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-wrap: wrap;
+      -ms-flex-wrap: wrap;
+          flex-wrap: wrap;
+}
+.src_containers_ExplorePage_js-styles-hexagon {
+  cursor: pointer;
+}
+.src_containers_ExplorePage_js-styles-filler {
+  display: none;
+}
+.src_components_Tab_js-styles-activeTab {
+  border-bottom: 1.5px solid rgb(78, 122, 221);
+}

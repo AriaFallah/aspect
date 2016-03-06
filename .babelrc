@@ -1,0 +1,12 @@
+{
+  "presets": ["react", "es2015", "stage-1"],
+  "plugins": [["css-in-js", {
+    "vendorPrefixes": true,
+    "bundleFile": "static/bundle.css"
+  }]],
+  "env": {
+    "development": {
+      "presets": ["react-hmre"]
+    }
+  }
+}

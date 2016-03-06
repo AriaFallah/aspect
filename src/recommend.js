@@ -28,21 +28,22 @@ let num_memes = {
 }
 let num_topics = Object.keys(num_memes).length
 
+// initial topics all have same probability
 for (let el in expected_enjoyment) {
   expected_enjoyment[el] = 1.0 / num_topics
 }
 
 function calcE(emotions) {
   return ( 
-    emotions.surprise * 
-    (emotions.smile - emotions.negative) +
-    (emotions.attention - 0.5)
+    emotions.surprise  + emotions.happiness -
+    emotions.anger - emotions.disgust -
+    emotions.fear - emotions.sadness
   )
 }
 
 function recommend_next_topic(topics, emotions) {
-  // topics: top 5 topics from latest video
-  // emotions: normalized emotional ratings for user reaction
+  // topics: top 5 topics from latest video (array)
+  // emotions: emotional ratings for user reaction (object)
   let enjoyment = calcE(emotions)
 
   topics.forEach(function(topic) {

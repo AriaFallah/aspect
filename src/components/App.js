@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import classNames from 'classnames'
 import Image from './Image'
-import { searchImgur, analyzeImage, getEmotion } from '../api'
+import { recommendTopics, updateUserPrefs } from '../recommend'
+import { searchImgur, getEmotion } from '../api'
 
 navigator.getUserMedia = (
   navigator.getUserMedia
@@ -11,34 +12,59 @@ navigator.getUserMedia = (
 )
 
 export default class App extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      img: 'http://i.imgur.com/SEQ8MWB.png'
+    }
+    this.getImage = this.getImage.bind(this)
+  }
+
   componentDidMount() {
-    let height   = 0
-    const width  = 320
-    const canvas = document.getElementById('c')
-    const video  = document.getElementById('v')
+    this.width   = 320
+    this.video   = document.getElementById('v')
+    this.canvas  = document.getElementById('c')
 
     // Create the webcam feed
     navigator.getUserMedia(
       { video: true },
-      (stream) => (video.src = window.URL.createObjectURL(stream)),
+      (stream) => (this.video.src = window.URL.createObjectURL(stream)),
       () => console.log('error')
     )
 
-    // Grab the reaction of the user
-    video.addEventListener('canplay', () =>
-      // Delay reaction capture 1s so they have time to see the image
-      setTimeout(() => {
-        // Tweak to get the proper image captured
-        height = video.videoHeight / (video.videoWidth / width)
-        video.setAttribute('width', width)
-        video.setAttribute('height', height)
-        canvas.setAttribute('width', width)
-        canvas.setAttribute('height', height)
-        canvas.getContext('2d').drawImage(video, 0, 0, width, height)
+    this.video.addEventListener('canplay', () => {
+      // Tweak to get the proper image captured
+      this.height = this.video.videoHeight / (this.video.videoWidth / this.width)
+      this.video.setAttribute('width', this.width)
+      this.video.setAttribute('height', this.height)
+      this.canvas.setAttribute('width', this.width)
+      this.canvas.setAttribute('height', this.height)
+      this.getImage()
+    })
+  }
 
-        const image = canvas.toDataURL('image/octet-stream')
-        // getEmotion(image).then((x) => console.log(x))
-      }, 2000))
+  getImage() {
+    const topics = recommendTopics(1)
+    searchImgur(topics[0])
+      .then(({ data: { data: { items } } }) => {
+        let img
+
+        do {
+          img = items[Math.floor(Math.random() * items.length)]
+        } while (img.is_album || img.link.includes('gif'))
+
+        this.setState({ img: img.link })
+
+        // Grab reaction after 1s delay
+        setTimeout(() => {
+          this.canvas.getContext('2d').drawImage(this.video, 0, 0, this.width, this.height)
+          const image = this.canvas.toDataURL('image/octet-stream')
+          getEmotion(image).then(({ data }) => {
+            console.log(data[0].scores)
+            console.log(updateUserPrefs(topics, data[0].scores))
+          })
+        }, 2000)
+      })
   }
 
   render() {
@@ -50,11 +76,11 @@ export default class App extends Component {
           <canvas id="c" />
         </tracking>
         <display className={classNames(style.flex, style.fadeIn)}>
-          <div>
-            <Image />
-          </div>
+          <button onClick={this.getImage} className="ui button basic">NEXT</button>
           <div className="ui divider"></div>
-          <button className="ui button basic">NEXT</button>
+          <div>
+            <Image img={this.state.img} />
+          </div>
         </display>
       </main>
     )

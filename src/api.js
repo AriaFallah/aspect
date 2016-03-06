@@ -2,13 +2,13 @@ import axios from 'axios'
 import config from './config'
 import { makeblob } from './util'
 
-export const searchImgur = () =>
+export const searchImgur = (tag) =>
   axios({
-    // Create custom imgur gallery
-    // Starts with a random image
-    // Take top 5 clarafai tags * positive or negative reaction
-    // If the tag * reaction < .5 remove the tag from the gallery
-    // something like that
+    url: `https://api.imgur.com/3/gallery/t/${tag}`,
+    method: 'get',
+    headers: {
+      Authorization: `Client-ID ${config.imgurKey}`
+    }
   })
 
 export const analyzeImage = (url) =>

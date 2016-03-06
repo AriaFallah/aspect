@@ -12,37 +12,36 @@
 const expectedEnjoyment = {
   cat     : 0,
   doge    : 0,
-  house   : 0,
+  meme    : 0,
   party   : 0,
   milk    : 0,
-  burgers : 0
+  boobs   : 0
 }
+
 // numMemes['topic'] says how many memes have been served with label 'topic'
 const numMemes = {
   cat     : 0,
   doge    : 0,
-  house   : 0,
+  meme    : 0,
   party   : 0,
   milk    : 0,
-  burgers : 0
+  boobs   : 0
 }
-const numTopics = Object.keys(numMemes).length
 
 // initial topics all have same probability
 Object.keys(expectedEnjoyment).forEach((el) => {
-  expectedEnjoyment[el] = 1.0 / numTopics
+  expectedEnjoyment[el] = 5
 })
 
 // should always be nonnegative
 function calcE(emotions) {
   return emotions.surprise + emotions.happiness -
-    (emotions.anger + emotions.disgust + emotions.fear + emotions.sadness) + 4
+    (emotions.anger + emotions.neutral + emotions.disgust + emotions.fear + emotions.sadness) + 5
 }
 
-function recommendTopics(numRecs) {
+export function recommendTopics(numRecs) {
   let sumEnjoyment = 0
   Object.keys(expectedEnjoyment).forEach((topic) => {
-    console.log(sumEnjoyment)
     sumEnjoyment += expectedEnjoyment[topic]
   })
 
@@ -67,11 +66,10 @@ function recommendTopics(numRecs) {
       }
     }
   }
-
   return recs
 }
 
-function updateUserPrefs(topics, emotions) {
+export function updateUserPrefs(topics, emotions) {
   // topics: top 5 topics from latest video (array)
   // emotions: normalized emotional ratings for user reaction (object)
   const enjoyment = calcE(emotions)
@@ -88,4 +86,6 @@ function updateUserPrefs(topics, emotions) {
 
     numMemes[topic]++
   })
+
+  return expectedEnjoyment
 }

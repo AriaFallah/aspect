@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import classNames from 'classnames'
 import Image from './Image'
 import { recommendTopics, updateUserPrefs } from '../recommend'
-import { searchImgur, getEmotion } from '../api'
+import { searchImgur, getEmotion, analyzeImage } from '../api'
 
 navigator.getUserMedia = (
   navigator.getUserMedia
@@ -59,10 +59,13 @@ export default class App extends Component {
         setTimeout(() => {
           this.canvas.getContext('2d').drawImage(this.video, 0, 0, this.width, this.height)
           const image = this.canvas.toDataURL('image/octet-stream')
-          getEmotion(image).then(({ data }) => {
-            console.log(data[0].scores)
-            console.log(updateUserPrefs(topics, data[0].scores))
-          })
+          Promise.all([getEmotion(image), analyzeImage(img.link)])
+            .then(([emotion, imageAnalysis]) => {
+              const tags   = imageAnalysis.data.results[0].result.tag.classes.slice(0, 5)
+              const scores = emotion.data[0].scores
+              console.log(scores)
+              console.log(updateUserPrefs([...topics, ...tags], scores))
+            })
         }, 2000)
       })
   }
@@ -70,7 +73,7 @@ export default class App extends Component {
   render() {
     return (
       <main className="ui container">
-        <text className="ui horizontal divider">Meme Rider</text>
+        <text className="ui horizontal divider">React</text>
         <tracking className={style.hidden}>
           <video  id="v" autoPlay="true" />
           <canvas id="c" />

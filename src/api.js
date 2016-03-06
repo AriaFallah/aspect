@@ -18,7 +18,7 @@ export const analyzeImage = (url) =>
     headers: {
       Authorization: `Bearer ${config.clarifaiKey}`
     },
-    params: {
+    data: {
       url
     }
   })

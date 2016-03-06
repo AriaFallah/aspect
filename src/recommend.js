@@ -10,22 +10,22 @@
 
 // expectedEnjoyment['topic'] yields expected enjoyment of 'topic'
 const expectedEnjoyment = {
-  cat     : 0,
-  doge    : 0,
-  meme    : 0,
-  party   : 0,
-  milk    : 0,
-  boobs   : 0
+  cat   : 0,
+  doge  : 0,
+  meme  : 0,
+  party : 0,
+  milk  : 0,
+  trump : 0
 }
 
 // numMemes['topic'] says how many memes have been served with label 'topic'
 const numMemes = {
-  cat     : 0,
-  doge    : 0,
-  meme    : 0,
-  party   : 0,
-  milk    : 0,
-  boobs   : 0
+  cat   : 0,
+  doge  : 0,
+  meme  : 0,
+  party : 0,
+  milk  : 0,
+  trump : 0
 }
 
 // initial topics all have same probability

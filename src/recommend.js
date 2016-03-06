@@ -35,8 +35,8 @@ Object.keys(expectedEnjoyment).forEach((el) => {
 
 // should always be nonnegative
 function calcE(emotions) {
-  return emotions.surprise + emotions.happiness -
-    (emotions.anger + emotions.neutral + emotions.disgust + emotions.fear + emotions.sadness) + 5
+  return 2 * (emotions.surprise + emotions.happiness) -
+    (emotions.anger + emotions.neutral + emotions.disgust + emotions.fear + emotions.sadness) + 1
 }
 
 export function recommendTopics(numRecs) {
